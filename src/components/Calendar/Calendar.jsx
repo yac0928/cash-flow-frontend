@@ -1,14 +1,22 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
+import './Calendar.css'
 
-const Calendar = () => {
-  // Your calendar implementation here
+const MyCalendar = () => {
+  const [date, setDate] = useState(new Date())
+
+  const onChange = (newDate) => {
+    setDate(newDate)
+    // 可以在這裡處理日期變更後的邏輯
+  }
 
   return (
     <div>
-      {/* Your calendar buttons */}
-      <Link to="/expenses/year=2022;month=1;day=1">Go to expenses</Link>
+      <h1>My Calendar App</h1>
+      <Calendar onChange={onChange} value={date} />
     </div>
   )
 }
 
-export default Calendar
+export default MyCalendar
