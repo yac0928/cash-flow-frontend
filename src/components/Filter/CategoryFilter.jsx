@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { getExpenses } from '../../apis/expenses.js'
 import noty from '../../utils/Noty.js'
 
-const CategoryFilter = ({ onSelectCategory }) => {
+const CategoryFilter = ({ onSelectCategory, year, month, day }) => {
   const [categoriesData, setCategoriesData] = useState(null)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const navigate = useNavigate()
@@ -11,7 +11,7 @@ const CategoryFilter = ({ onSelectCategory }) => {
   const handleCategoryIdChange = (categoryId) => {
     setSelectedCategoryId(categoryId)
     onSelectCategory(categoryId) // 將選擇的 categoryId 通知到父組件
-    navigate(`/expenses?year=2023&month=7&day=31&categoryId=${categoryId}`)
+    navigate(`/expenses?year=${year}&month=${month}&day=${day}&categoryId=${categoryId}`)
   }
 
   useEffect(() => {

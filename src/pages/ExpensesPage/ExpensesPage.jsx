@@ -25,7 +25,12 @@ const ExpensesPage = () => {
 
   return (
     <div>
-      <CategoryFilter onSelectCategory={handleCategoryIdChange} />
+      <CategoryFilter
+        onSelectCategory={handleCategoryIdChange}
+        year={year}
+        month={month}
+        day={day}
+      />
       <ExpensesList
         selectedCategoryId={selectedCategoryId}
         year={year}

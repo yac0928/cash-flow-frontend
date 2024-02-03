@@ -9,7 +9,6 @@ export const login = async ({ email, password }) => {
       password
     })
     if (responseData) {
-      console.log(responseData)
       const { token } = responseData.data
       const currentUser = responseData.data.user
       return {
