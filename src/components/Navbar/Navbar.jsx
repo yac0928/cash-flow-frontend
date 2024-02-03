@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import LoginModal from '../Modal/LoginModal'
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // 在元件初始化時檢查是否存在有效的 token
+    const userToken = localStorage.getItem('userToken')
+    console.log('userToken', userToken)
+    setIsAuthenticated(!!userToken) // 將 userToken 轉換成布林值並設定 isAuthenticated
+  }, [])
+
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('currentUserId')
+    localStorage.removeItem('userToken')
+    localStorage.removeItem('currentUser')
     setIsAuthenticated(false)
   }
   return (
@@ -25,12 +33,12 @@ const Navbar = () => {
                   Logout
                 </button>
               </li>
-            )
+              )
             : (
               <li className="nav-item">
                 <LoginModal setIsAuthenticated={setIsAuthenticated} />
               </li>
-            )}
+              )}
         </ul>
       </div>
     </nav>

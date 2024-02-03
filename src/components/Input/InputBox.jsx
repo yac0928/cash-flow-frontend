@@ -63,7 +63,7 @@ export default function InputBox ({
     } else {
       setIsError(false)
     }
-  }, [errorMessage])
+  }, [errorMessage, setIsError])
 
   return (
     <div>

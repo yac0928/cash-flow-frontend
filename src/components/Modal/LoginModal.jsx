@@ -24,10 +24,10 @@ export default function LoginModal ({ setIsAuthenticated }) {
       email,
       password
     })
-    console.log(token)
     if (token) {
-      localStorage.setItem('token', token)
-      localStorage.setItem('currentUser', currentUser)
+      localStorage.setItem('userToken', token)
+      const user = JSON.stringify(currentUser)
+      localStorage.setItem('currentUser', user)
       noty('Successfully login!', 'success')
       setIsAuthenticated(true)
       navigate('/')
