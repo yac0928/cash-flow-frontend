@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function InputBox ({
+export default function LoginInputBox ({
   label,
   type,
   value,
@@ -37,9 +37,8 @@ export default function InputBox ({
   // 檢查email
   const checkEmail = () => {
     const whitespaceRegex = /^\s*$/
-
-    if (value.length === 100) {
-      setErrorMessage('字數上限100字！')
+    if (value.length === 30) {
+      setErrorMessage('字數上限30字！')
     } else if (whitespaceRegex.test(value) && value.length !== 0) {
       setErrorMessage('請輸入內容！')
     } else {
@@ -69,6 +68,8 @@ export default function InputBox ({
     <div>
       <label htmlFor={label}>{label}</label>
       <input
+        className="form-control"
+        id={label}
         type={type || 'text'}
         value={value || ''}
         onChange={(e) => onChange?.(e.target.value)}

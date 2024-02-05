@@ -34,6 +34,38 @@ export const getExpense = async (expenseId) => {
   }
 }
 
+export const editExpense = async (expenseId) => {
+  try {
+    const { data: responseData } = await axiosInstance.get(`/expenses/${expenseId}/edit`)
+    if (responseData) {
+      return {
+        success: true,
+        expense: responseData.expense,
+        categories: responseData.categories,
+        payments: responseData.payments
+      }
+    }
+  } catch (error) {
+    console.error('[Get All Post Failed]:', error)
+    return { success: false }
+  }
+}
+
+export const putExpense = async (expenseId, updatedData) => {
+  try {
+    const { data: responseData } = await axiosInstance.put(`/expenses/${expenseId}`, updatedData)
+    if (responseData) {
+      return {
+        success: true,
+        updatedExpense: responseData.updatedExpense
+      }
+    }
+  } catch (error) {
+    console.error('[Get All Post Failed]:', error)
+    return { success: false }
+  }
+}
+
 export const deleteExpense = async (queryParams) => {
   try {
     const { data: responseData } = await axiosInstance.get('/expenses', { params: queryParams })

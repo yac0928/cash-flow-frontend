@@ -10,9 +10,8 @@ const ExpensesList = ({ selectedCategoryId, year, month, day }) => {
   const handleEditExpense = async (expenseId) => {
     try {
       const { success, expense } = await getExpense(expenseId)
-      console.log(expenseId)
       if (success) {
-        navigate(`/expense/${expenseId}/edit`, { state: { expense } })
+        navigate(`/expenses/${expenseId}/edit`, { state: { expense } })
       } else {
         console.error('Failed to get expense details for editing.')
       }

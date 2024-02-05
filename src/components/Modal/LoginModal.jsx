@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal, Button, Form } from 'react-bootstrap'
 // components
-import InputBox from '../Input/InputBox.jsx'
+import LoginInputBox from '../Input/LoginInputBox.jsx'
 // api
 import { login } from '../../apis/auth.js'
 // utils
 import noty from '../../utils/Noty.js'
 
-export default function LoginModal ({ setIsAuthenticated }) {
+export default function LoginModal({ setIsAuthenticated }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isError, setIsError] = useState('')
@@ -16,7 +16,9 @@ export default function LoginModal ({ setIsAuthenticated }) {
   const navigate = useNavigate()
   // 登入功能
   const handleLogin = async () => {
+    console.log('handleLogin')
     if (email.trim().length === 0 || password.trim().length === 0 || isError) {
+      noty('Please use valid email or password!', 'error')
       return
     }
 
@@ -24,10 +26,11 @@ export default function LoginModal ({ setIsAuthenticated }) {
       email,
       password
     })
+    console.log('login api successfully!')
     if (token) {
-      localStorage.setItem('userToken', token)
+      localStorage.setItem('Token', token)
       const user = JSON.stringify(currentUser)
-      localStorage.setItem('currentUser', user)
+      localStorage.setItem('User', user)
       noty('Successfully login!', 'success')
       setIsAuthenticated(true)
       navigate('/')
@@ -48,21 +51,23 @@ export default function LoginModal ({ setIsAuthenticated }) {
         <Modal.Body>
           <Form>
             <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
-              <InputBox
+              <LoginInputBox
+                label='Email'
                 type="text"
                 value={email}
                 onChange={(inputValue) => setEmail(inputValue)}
+                maxLength='30'
                 setIsError={setIsError}
               />
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label>密碼</Form.Label>
-              <InputBox
+              <LoginInputBox
+                label='Password'
                 type="password"
                 value={password}
                 onChange={(inputValue) => setPassword(inputValue)}
+                maxLength='20'
                 setIsError={setIsError}
               />
             </Form.Group>
