@@ -1,18 +1,9 @@
-import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import LoginModal from '../Modal/LoginModal'
 
-const Navbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const navigate = useNavigate()
-
-  useEffect(() => {
-    // 在元件初始化時檢查是否存在有效的 token
-    const userToken = localStorage.getItem('Token')
-    setIsAuthenticated(!!userToken) // 將 userToken 轉換成布林值並設定 isAuthenticated
-  }, [])
-
   const handleLogout = () => {
     localStorage.removeItem('Token')
     localStorage.removeItem('User')

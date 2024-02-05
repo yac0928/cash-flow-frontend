@@ -15,13 +15,6 @@ const ExpensesPage = () => {
   const handleCategoryIdChange = (categoryId) => {
     setSelectedCategoryId(categoryId)
   }
-  useEffect(() => {
-    // 在這裡檢查是否有有效的 token
-    console.log('ExpensesPage')
-    if (!localStorage.getItem('Token')) {
-      navigate('/')
-    }
-  })
 
   return (
     <div>

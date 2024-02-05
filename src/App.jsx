@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import Navbar from './components/Navbar/Navbar'
@@ -9,32 +9,16 @@ import EditExpensePage from './pages/EditExpensePage/EditExpensePage'
 import './App.css'
 
 const App = () => {
-  const [token, setToken] = useState(null)
-  useEffect(() => {
-    // 在這裡檢查是否有有效的 token，並將結果存儲在 state 中
-    const userToken = localStorage.getItem('Token')
-    setToken(userToken)
-  }, [])
-
-  const PrivateRoute = ({ element, ...rest }) => {
-    return token
-      ? (
-          element
-        )
-      : (
-        <Navigate to="/" replace={true} />
-        )
-  }
-
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem('Token')))
   return (
     <div>
       <BrowserRouter>
-        <Navbar />
+        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/expenses" element={<PrivateRoute element={<ExpensesPage />} />} />
-          <Route path="/expenses/:id" element={<PrivateRoute element={<ExpensePage />} />} />
-          <Route path="/expenses/:id/edit" element={<PrivateRoute element={<EditExpensePage />} />} />
+          <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
+          <Route path="/expenses/:id" element={isAuthenticated ? <ExpensePage /> : <Navigate to="/" />} />
+          <Route path="/expenses/:id/edit" element={isAuthenticated ? <EditExpensePage /> : <Navigate to="/" />} />
 
           {/* 其他路由 */}
         </Routes>
