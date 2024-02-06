@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate} from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
 // components
 import EditExpenseInputBox from '../../components/Input/EditExpenseInputBox.jsx'
@@ -9,21 +9,24 @@ import { editExpense, putExpense } from '../../apis/expenses.js'
 import noty from '../../utils/Noty.js'
 import CheckValidInput from '../../utils/CheckValidInput.js'
 
-export default function EditExpense ({ setIsAuthenticated }) {
+export default function EditExpense({ setIsAuthenticated }) {
+  const navigate = useNavigate()
   const location = useLocation()
-  const { expense } = location.state
+  const { params, expenseId } = location.state
   // const [date, setDate] = useState('')
-  const [name, setName] = useState(expense.name)
-  const [amount, setAmount] = useState(expense.amount)
-  const [categoryId, setCategoryId] = useState(expense.Category.id)
-  const [paymentId, setPaymentId] = useState(expense.Payment.id)
-  const [comment, setComment] = useState(expense.comment)
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [categoryId, setCategoryId] = useState('')
+  const [paymentId, setPaymentId] = useState('')
+  const [comment, setComment] = useState('')
   // const [paymentMonth, setPaymentMonth] = useState('')
   // const [paymentDay, setPaymentDay] = useState('')
   const [categoriesData, setCategoriesData] = useState(null)
   const [paymentMethodsData, setPaymentMethodsData] = useState(null)
-  const navigate = useNavigate()
   // 登入功能
+  const backToExpensesPage = () => {
+    navigate(`/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`, { state: { params } })
+  }
   const handleEditExpense = async () => {
     CheckValidInput(name, 'name')
     CheckValidInput(amount, 'amount')
@@ -34,28 +37,35 @@ export default function EditExpense ({ setIsAuthenticated }) {
       paymentId,
       comment
     }
-    const { success, updatedExpense } = await putExpense(expense.id, updatedData)
+    const { success, updatedExpense } = await putExpense(expenseId, updatedData)
     if (success) {
       noty('Expense updated successfully', 'success')
       console.log('updatedExpense: ', updatedExpense)
-      navigate('/expenses')
+      navigate(
+        `/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`,
+        { state: { params } }
+      )
     } else {
       noty('Failed to update expense!', 'error')
     }
   }
-
   useEffect(() => {
-    const getData = async () => {
-      const { success, categories, payments } = await editExpense(expense.id)
+    const getData = async (id) => {
+      const { success, expense, categories, payments } = await editExpense(id)
       if (success) {
+        setName(expense.name)
+        setAmount(expense.amount)
+        setCategoryId(expense.Category.id)
+        setPaymentId(expense.Payment.id)
+        setComment(expense.comment)
         setCategoriesData(categories)
         setPaymentMethodsData(payments)
       } else {
         noty('Failed to get data!', 'error')
       }
     }
-    getData()
-  }, [])
+    getData(expenseId)
+  }, [expenseId])
   return (
     <>
       <Form>
@@ -105,9 +115,8 @@ export default function EditExpense ({ setIsAuthenticated }) {
           />
         </Form.Group>
       </Form>
-      <Button variant="primary" onClick={handleEditExpense}>
-        Submit
-      </Button>
+      <Button onClick={() => backToExpensesPage()} variant="secondary">Back</Button>
+      <Button variant="primary" onClick={handleEditExpense}>Submit</Button>
     </>
   )
 }

@@ -1,25 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getExpenses, getExpense } from '../../apis/expenses.js'
+import { getExpenses } from '../../apis/expenses.js'
 import noty from '../../utils/Noty.js'
+import { Container, ListGroup, Button } from 'react-bootstrap'
 
-const ExpensesList = ({ selectedCategoryId, year, month, day }) => {
+const ExpensesList = ({ selectedCategoryId, params }) => {
   const [expensesData, setExpensesData] = useState(null)
   const [totalAmountData, setTotalAmountData] = useState(0)
   const navigate = useNavigate()
-  const handleEditExpense = async (expenseId) => {
-    try {
-      const { success, expense } = await getExpense(expenseId)
-      if (success) {
-        navigate(`/expenses/${expenseId}/edit`, { state: { expense } })
-      } else {
-        console.error('Failed to get expense details for editing.')
-      }
-    } catch (error) {
-      console.error('An error occurred while getting expense details for editing:', error)
-    }
+  const toExpensePage = (expenseId) => {
+    navigate(`/expenses/${expenseId}`, { state: { params, expenseId } })
   }
-
+  const toEditExpensePage = (expenseId) => {
+    navigate(`/expenses/${expenseId}/edit`, { state: { params, expenseId } })
+  }
   const handleDeleteExpense = (expenseId) => {
     // 處理刪除操作，例如發送 DELETE 請求
   }
@@ -27,14 +21,13 @@ const ExpensesList = ({ selectedCategoryId, year, month, day }) => {
     console.log('ExpensesList')
     const getData = async () => {
       const queryParams = {
-        year,
-        month,
-        day,
+        year: params.year,
+        month: params.month,
+        day: params.day,
         categoryId: selectedCategoryId === 'null' ? undefined : selectedCategoryId
       }
       const { success, expenses, totalAmount } = await getExpenses(queryParams)
       if (success) {
-        console.log('expenses:', expenses)
         setExpensesData(expenses)
         setTotalAmountData(totalAmount)
       } else {
@@ -42,25 +35,39 @@ const ExpensesList = ({ selectedCategoryId, year, month, day }) => {
       }
     }
     getData()
-  }, [selectedCategoryId, year, month, day])
+  }, [selectedCategoryId, params.year, params.month, params.day])
 
   return (
-    <div>
-      <h2>Expenses List:</h2>
-      <ul>
+    <Container>
+      <h2 className="mt-4">Expenses List:</h2>
+      <ListGroup className="mb-4">
         {expensesData && expensesData.length
-          ? expensesData.map((expense) => (
-            <li key={expense.id}>
-              <p>Name:{expense.name}, Amount: {expense.amount}
-                <button onClick={() => handleEditExpense(expense.id)}>Edit</button>
-                <button onClick={() => handleDeleteExpense(expense.id)}>Delete</button>
+          ? (
+              expensesData.map((expense) => (
+            <ListGroup.Item key={expense.id}>
+              <p>
+                <strong>Name:</strong> {expense.name}, <strong>Amount:</strong> {expense.amount}
+                <Button className="ml-2" variant="primary" onClick={() => toExpensePage(expense.id)}>
+                  Details
+                </Button>
+                <Button className="ml-2" variant="info" onClick={() => toEditExpensePage(expense.id)}>
+                  Edit
+                </Button>
+                <Button className="ml-2" variant="danger" onClick={() => handleDeleteExpense(expense.id)}>
+                  Delete
+                </Button>
               </p>
-            </li>
-          ))
-          : <p>No data found</p>}
-      </ul>
-      <p>Total Amount: {totalAmountData}</p>
-    </div>
+            </ListGroup.Item>
+              ))
+            )
+          : (
+          <ListGroup.Item>No data found</ListGroup.Item>
+            )}
+      </ListGroup>
+      <p>
+        <strong>Total Amount:</strong> {totalAmountData}
+      </p>
+    </Container>
   )
 }
 

@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getExpenses } from '../../apis/expenses.js'
 import noty from '../../utils/Noty.js'
+import { Container, ListGroup } from 'react-bootstrap'
 
-const CategoryFilter = ({ onSelectCategory, year, month, day }) => {
+const CategoryFilter = ({ onSelectCategory, params }) => {
   const [categoriesData, setCategoriesData] = useState(null)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const navigate = useNavigate()
@@ -11,7 +12,7 @@ const CategoryFilter = ({ onSelectCategory, year, month, day }) => {
   const handleCategoryIdChange = (categoryId) => {
     setSelectedCategoryId(categoryId)
     onSelectCategory(categoryId) // 將選擇的 categoryId 通知到父組件
-    navigate(`/expenses?year=${year}&month=${month}&day=${day}&categoryId=${categoryId}`)
+    navigate(`/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=${categoryId}`, { state: { params } })
   }
 
   useEffect(() => {
@@ -33,10 +34,10 @@ const CategoryFilter = ({ onSelectCategory, year, month, day }) => {
   }, [])
 
   return (
-    <div>
+    <Container>
       <h3>Categories:</h3>
-      <ul>
-        <li
+      <ListGroup horizontal>
+        <ListGroup.Item
           key="all"
           onClick={() => handleCategoryIdChange(null)}
           style={{
@@ -45,10 +46,10 @@ const CategoryFilter = ({ onSelectCategory, year, month, day }) => {
           }}
         >
           All
-        </li>
+        </ListGroup.Item>
         {categoriesData &&
           categoriesData.map((category) => (
-            <li
+            <ListGroup.Item
               key={category.id}
               onClick={() => handleCategoryIdChange(category.id)}
               style={{
@@ -57,10 +58,10 @@ const CategoryFilter = ({ onSelectCategory, year, month, day }) => {
               }}
             >
               {category.name}
-            </li>
+            </ListGroup.Item>
           ))}
-      </ul>
-    </div>
+      </ListGroup>
+    </Container>
   )
 }
 

@@ -14,14 +14,17 @@ const MyCalendar = () => {
     const year = newDate.getFullYear()
     const month = newDate.getMonth() + 1 // 注意月份是從 0 開始的
     const day = newDate.getDate()
-
-    // 導航到指定路由
-    navigate(`/expenses?year=${year}&month=${month}&day=${day}&categoryId=`)
+    const params = { year, month, day, categoryId: null }
+    navigate(
+      `/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`,
+      { state: { params } }
+    )
   }
 
   return (
     <div>
       <h1>My Calendar App</h1>
+      <h2>Login for additional features</h2>
       <Calendar onChange={onChange} value={date} />
     </div>
   )

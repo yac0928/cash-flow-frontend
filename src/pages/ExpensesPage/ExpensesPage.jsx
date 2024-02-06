@@ -1,15 +1,11 @@
-import { useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import CategoryFilter from '../../components/Filter/CategoryFilter'
 import ExpensesList from '../../components/ExpensesList/ExpensesList'
 
 const ExpensesPage = () => {
   const location = useLocation()
-  const navigate = useNavigate()
-  const searchParams = new URLSearchParams(location.search)
-  const year = Number(searchParams.get('year'))
-  const month = Number(searchParams.get('month'))
-  const day = Number(searchParams.get('day'))
+  const { params } = location.state
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
 
   const handleCategoryIdChange = (categoryId) => {
@@ -18,17 +14,14 @@ const ExpensesPage = () => {
 
   return (
     <div>
+      <h3>Date: {params.year}-{params.month}-{params.day}</h3>
       <CategoryFilter
         onSelectCategory={handleCategoryIdChange}
-        year={year}
-        month={month}
-        day={day}
+        params = { params }
       />
       <ExpensesList
         selectedCategoryId={selectedCategoryId}
-        year={year}
-        month={month}
-        day={day}
+        params= { params }
       />
     </div>
   )
