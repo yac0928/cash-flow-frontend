@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import Navbar from './components/Navbar/Navbar'
@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage/HomePage'
 import ExpensesPage from './pages/ExpensesPage/ExpensesPage'
 import ExpensePage from './pages/ExpensePage/ExpensePage'
 import EditExpensePage from './pages/EditExpensePage/EditExpensePage'
+import PostExpensePage from './pages/PostExpensePage/PostExpensePage'
 import './App.css'
 
 const App = () => {
@@ -15,10 +16,11 @@ const App = () => {
       <BrowserRouter>
         <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
+          <Route path="/expenses/new" element={isAuthenticated ? <PostExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses/:id" element={isAuthenticated ? <ExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses/:id/edit" element={isAuthenticated ? <EditExpensePage /> : <Navigate to="/" />} />
+          <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
+          <Route path="/" element={<HomePage />} />
 
           {/* 其他路由 */}
         </Routes>

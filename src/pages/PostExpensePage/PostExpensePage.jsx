@@ -4,68 +4,73 @@ import { Container, Button, Form } from 'react-bootstrap'
 // components
 import EditExpenseInputBox from '../../components/Input/EditExpenseInputBox.jsx'
 // api
-import { editExpense, putExpense } from '../../apis/expenses.js'
+import { postExpense, createExpense } from '../../apis/expenses.js'
 // utils
 import noty from '../../utils/Noty.js'
 import CheckValidInput from '../../utils/CheckValidInput.js'
 
-export default function EditExpensePage ({ setIsAuthenticated }) {
+export default function PostExpensePage () {
   const navigate = useNavigate()
   const location = useLocation()
-  const { params, expenseId } = location.state
+  const { params } = location.state
   // const [date, setDate] = useState('')
   const [name, setName] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [categoryId, setCategoryId] = useState('')
-  const [paymentId, setPaymentId] = useState('')
-  const [comment, setComment] = useState('')
-  // const [paymentMonth, setPaymentMonth] = useState('')
-  // const [paymentDay, setPaymentDay] = useState('')
+  const [amount, setAmount] = useState(1)
+  const [categoryId, setCategoryId] = useState(1)
+  const [paymentId, setPaymentId] = useState(1)
+  const [comment, setComment] = useState(null)
+  const [paymentYears, setPaymentYears] = useState(0)
+  const [paymentPerMonth, setPaymentPerMonth] = useState(0)
   const [categoriesData, setCategoriesData] = useState(null)
   const [paymentMethodsData, setPaymentMethodsData] = useState(null)
   // 登入功能
   const backToExpensesPage = () => {
     navigate(`/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`, { state: { params } })
   }
-  const handleEditExpense = async () => {
+  const handlePostExpense = async () => {
     CheckValidInput(name, 'name')
     CheckValidInput(amount, 'amount')
-    const updatedData = {
+    const newData = {
+      date: new Date(Date.UTC(params.year, params.month - 1, params.day)),
       name,
       amount,
       categoryId,
       paymentId,
+      paymentYears,
+      paymentPerMonth,
       comment
     }
-    const { success, updatedExpense } = await putExpense(expenseId, updatedData)
+
+    console.log(newData)
+    const { success, newExpenses } = await postExpense(newData)
     if (success) {
-      noty('Expense updated successfully', 'success')
-      console.log('updatedExpense: ', updatedExpense)
+      noty('Expense created successfully', 'success')
+      console.log('createdExpenses: ', newExpenses)
       navigate(
         `/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`,
         { state: { params } }
       )
     } else {
-      noty('Failed to update expense!', 'error')
+      noty('Failed to create expenses!', 'error')
     }
   }
   useEffect(() => {
-    const getData = async (id) => {
-      const { success, expense, categories, payments } = await editExpense(id)
+    const getData = async () => {
+      const { success, categories, payments } = await createExpense()
       if (success) {
-        setName(expense.name)
-        setAmount(expense.amount)
-        setCategoryId(expense.Category.id)
-        setPaymentId(expense.Payment.id)
-        setComment(expense.comment)
         setCategoriesData(categories)
         setPaymentMethodsData(payments)
       } else {
         noty('Failed to get data!', 'error')
       }
     }
-    getData(expenseId)
-  }, [expenseId])
+    getData()
+  }, [])
+  useEffect(() => {
+    if (paymentYears <= 0) {
+      setPaymentPerMonth(0)
+    }
+  }, [paymentYears])
   return (
     <Container>
       <h2 className="mt-4">Edit Expense:</h2>
@@ -85,9 +90,17 @@ export default function EditExpensePage ({ setIsAuthenticated }) {
         <Form.Group controlId="formComment">
           <EditExpenseInputBox label='Comment' type='text' value={comment || ''} onChange={(e) => setComment(e.target.value)} maxLength={50} />
         </Form.Group>
+        <Form.Group controlId="formPaymentYears">
+          <EditExpenseInputBox label='PaymentYears' type='number' value={paymentYears} onChange={(e) => setPaymentYears(e.target.value)} max={3} min={0} note='0-3' />
+        </Form.Group>
+        {paymentYears > 0 &&
+          <Form.Group controlId="formPaymentPerMonth">
+            <EditExpenseInputBox label='PaymentPerMonth' type='number' value={paymentPerMonth} onChange={(e) => setPaymentPerMonth(e.target.value)} max={12} min={1} note='1-12' />
+          </Form.Group>
+        }
       </Form>
       <Button onClick={() => backToExpensesPage()} variant="secondary">Back</Button>
-      <Button variant="primary" onClick={handleEditExpense}>Save</Button>
+      <Button variant="primary" onClick={handlePostExpense}>Create</Button>
     </Container>
   )
 }

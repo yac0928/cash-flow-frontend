@@ -17,6 +17,9 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
   const handleDeleteExpense = (expenseId) => {
     // 處理刪除操作，例如發送 DELETE 請求
   }
+  const handleAddNewExpenses = () => {
+    navigate('/expenses/new', { state: { params } })
+  }
   useEffect(() => {
     console.log('ExpensesList')
     const getData = async () => {
@@ -44,26 +47,27 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
         {expensesData && expensesData.length
           ? (
               expensesData.map((expense) => (
-            <ListGroup.Item key={expense.id}>
-              <p>
-                <strong>Name:</strong> {expense.name}, <strong>Amount:</strong> {expense.amount}
-                <Button className="ml-2" variant="primary" onClick={() => toExpensePage(expense.id)}>
-                  Details
-                </Button>
-                <Button className="ml-2" variant="info" onClick={() => toEditExpensePage(expense.id)}>
-                  Edit
-                </Button>
-                <Button className="ml-2" variant="danger" onClick={() => handleDeleteExpense(expense.id)}>
-                  Delete
-                </Button>
-              </p>
-            </ListGroup.Item>
+              <ListGroup.Item key={expense.id}>
+                <p>
+                  <strong>Name:</strong> {expense.name}, <strong>Amount:</strong> {expense.amount}
+                  <Button className="ml-2" variant="primary" onClick={() => toExpensePage(expense.id)}>
+                    Details
+                  </Button>
+                  <Button className="ml-2" variant="info" onClick={() => toEditExpensePage(expense.id)}>
+                    Edit
+                  </Button>
+                  <Button className="ml-2" variant="danger" onClick={() => handleDeleteExpense(expense.id)}>
+                    Delete
+                  </Button>
+                </p>
+              </ListGroup.Item>
               ))
             )
           : (
-          <ListGroup.Item>No data found</ListGroup.Item>
+            <ListGroup.Item>No data found</ListGroup.Item>
             )}
       </ListGroup>
+      <Button variant="success" onClick={handleAddNewExpenses}>Add new expenses</Button>
       <p>
         <strong>Total Amount:</strong> {totalAmountData}
       </p>
