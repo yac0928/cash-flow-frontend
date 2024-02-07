@@ -8,7 +8,7 @@ import { postExpense, createExpense } from '../../apis/expenses.js'
 // utils
 import noty from '../../utils/Noty.js'
 import CheckValidInput from '../../utils/CheckValidInput.js'
-
+// eslint-disable-next-line
 export default function PostExpensePage() {
   const navigate = useNavigate()
   const location = useLocation()
