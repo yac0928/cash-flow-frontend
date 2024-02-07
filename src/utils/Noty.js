@@ -4,6 +4,7 @@ import 'noty/lib/themes/relax.css'
 
 function noty (message, type) {
   new Noty({
+    theme: 'relax',
     text: message,
     type,
     timeout: 3000,

@@ -97,16 +97,13 @@ export const putExpense = async (expenseId, updatedData) => {
   }
 }
 
-export const deleteExpense = async (queryParams) => {
+export const deleteExpense = async (expenseId) => {
   try {
-    const { data: responseData } = await axiosInstance.get('/expenses', { params: queryParams })
+    const { data: responseData } = await axiosInstance.delete(`/expenses/${expenseId}`)
     if (responseData) {
       return {
         success: true,
-        expenses: responseData.expenses,
-        categories: responseData.categories,
-        categoryId: responseData.categoryId,
-        totalAmount: responseData.totalAmount
+        deletedExpenses: responseData.deletedExpenses
       }
     }
   } catch (error) {

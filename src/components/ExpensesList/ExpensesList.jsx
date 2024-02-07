@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getExpenses } from '../../apis/expenses.js'
+import { getExpenses, deleteExpense } from '../../apis/expenses.js'
 import noty from '../../utils/Noty.js'
 import { Container, ListGroup, Button } from 'react-bootstrap'
 
@@ -14,8 +14,15 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
   const toEditExpensePage = (expenseId) => {
     navigate(`/expenses/${expenseId}/edit`, { state: { params, expenseId } })
   }
-  const handleDeleteExpense = (expenseId) => {
-    // 處理刪除操作，例如發送 DELETE 請求
+  const handleDeleteExpense = async (expenseId) => {
+    const { success, deletedExpenses } = await deleteExpense(expenseId)
+    if (success) {
+      noty('Delete Expense Successfully!', 'success')
+      console.log('deletedExpenses: ', deletedExpenses)
+      setExpensesData(prevExpenses => prevExpenses.filter(expense => expense.id !== expenseId))
+    } else {
+      noty('Delete Expense Failed!', 'error')
+    }
   }
   const handleAddNewExpenses = () => {
     navigate('/expenses/new', { state: { params } })
