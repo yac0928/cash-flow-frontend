@@ -8,12 +8,12 @@ import { postExpense, createExpense } from '../../apis/expenses.js'
 // utils
 import noty from '../../utils/Noty.js'
 import CheckValidInput from '../../utils/CheckValidInput.js'
-// eslint-disable-next-line
-export default function PostExpensePage() {
+
+export default function PostExpensePage () {
   const navigate = useNavigate()
   const location = useLocation()
   const { params } = location.state
-  // const [date, setDate] = useState('')
+  const user = JSON.parse(localStorage.getItem('User'))
   const [name, setName] = useState('')
   const [amount, setAmount] = useState(0)
   const [categoryId, setCategoryId] = useState(1)
@@ -100,7 +100,17 @@ export default function PostExpensePage() {
           <EditExpenseInputBox label='Comment' type='text' value={comment || ''} onChange={(e) => setComment(e.target.value)} maxLength={50} />
         </Form.Group>
         <Form.Group controlId="formPaymentYears">
-          <EditExpenseInputBox label='PaymentYears' type='number' value={paymentYears} onChange={(e) => setPaymentYears(Number(e.target.value))} max={3} min={0} note='0-3' />
+          {user.Subscription.level !== 'none' && (
+            <EditExpenseInputBox
+              label='PaymentYears'
+              type='number'
+              value={paymentYears}
+              onChange={(e) => setPaymentYears(Number(e.target.value))}
+              max={3}
+              min={0}
+              note='0-3'
+            />
+          )}
         </Form.Group>
         {paymentYears > 0 &&
           <Form.Group controlId="formPaymentPerMonth">

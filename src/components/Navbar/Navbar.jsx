@@ -1,40 +1,49 @@
 import { Link, useNavigate } from 'react-router-dom'
-
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import LoginModal from '../Modal/LoginModal'
 
-const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
+const CustomNavbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const navigate = useNavigate()
+
   const handleLogout = () => {
     localStorage.removeItem('Token')
     localStorage.removeItem('User')
     setIsAuthenticated(false)
     navigate('/')
   }
-  return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand" to="/">
-        Home
-      </Link>
 
-      <div className="navbar-collapse">
-        <ul className="navbar-nav ml-auto">
+  const user = JSON.parse(localStorage.getItem('User'))
+
+  return (
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand as={Link} to="/">
+        Home
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ml-auto">
           {isAuthenticated
             ? (
-              <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogout}>
-                  Logout
-                </button>
-              </li>
+              <>
+                <Nav.Item>
+                  <Nav.Link disabled>Hi, {user.name} ({user.Subscription.level} level)</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Button variant="link" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </Nav.Item>
+              </>
               )
             : (
-              <li className="nav-item">
+              <Nav.Item>
                 <LoginModal setIsAuthenticated={setIsAuthenticated} />
-              </li>
+              </Nav.Item>
               )}
-        </ul>
-      </div>
-    </nav>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   )
 }
 
-export default Navbar
+export default CustomNavbar

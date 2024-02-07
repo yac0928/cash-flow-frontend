@@ -8,7 +8,7 @@ import { login } from '../../apis/auth.js'
 // utils
 import noty from '../../utils/Noty.js'
 
-export default function LoginModal({ setIsAuthenticated }) {
+export default function LoginModal ({ setIsAuthenticated }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isError, setIsError] = useState('')

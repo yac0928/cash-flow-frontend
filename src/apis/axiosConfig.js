@@ -4,9 +4,10 @@ const axiosInstance = axios.create({ baseURL })
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('userToken')
+    const token = localStorage.getItem('Token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
+      console.log('api使用token: ', token)
     }
     return config
   },
