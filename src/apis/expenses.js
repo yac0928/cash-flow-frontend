@@ -40,7 +40,8 @@ export const getExpense = async (expenseId) => {
     if (responseData) {
       return {
         success: true,
-        expense: responseData.expense
+        expense: responseData.expense,
+        expenses: responseData.expenses
       }
     }
   } catch (error) {

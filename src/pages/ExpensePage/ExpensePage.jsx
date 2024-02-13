@@ -9,11 +9,15 @@ const ExpensePage = () => {
   const location = useLocation()
   const { params, expenseId } = location.state
   const [expense, setExpense] = useState(null)
+  const [relatedExpenses, setRelatedExpenses] = useState(null)
   const backToExpensesPage = () => {
     navigate(`/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`, { state: { params } })
   }
   const toEditExpensePage = (expenseId) => {
     navigate(`/expenses/${expenseId}/edit`, { state: { params, expenseId } })
+  }
+  const toRelatedExpensePage = (expenseId) => { // Function to navigate to an expense page
+    navigate(`/expenses/${expenseId}`, { state: { params, expenseId } })
   }
   const handleDeleteExpense = async (expenseId) => {
     const confirmMessage = expense.group
@@ -41,10 +45,10 @@ const ExpensePage = () => {
   }
   useEffect(() => {
     const getData = async (id) => {
-      const { success, expense } = await getExpense(id)
+      const { success, expense, expenses } = await getExpense(id)
       if (success) {
         setExpense(expense)
-        console.log('expense: ', expense)
+        setRelatedExpenses(expenses)
       } else {
         noty('Failed to get expense', 'error')
         console.error('Failed to get expense details for editing.')
@@ -66,6 +70,21 @@ const ExpensePage = () => {
               <p><strong>Category:</strong> {expense.Category.name}</p>
               <p><strong>Payment:</strong> {expense.Payment.name}</p>
               <p><strong>Comment:</strong> {expense.comment}</p>
+            </>
+          )}
+          {relatedExpenses && (
+            <>
+              <h3>Related Expenses</h3>
+              <ul>
+                {relatedExpenses.map((relatedExpense, index) => (
+                  <li key={index}>
+                    {relatedExpense.date.substring(0, 10)} - {relatedExpense.name}
+                    <Button className="ml-2" variant="outline-info" size="sm" onClick={() => toRelatedExpensePage(relatedExpense.id)}>
+                      Go
+                    </Button>
+                  </li>
+                ))}
+              </ul>
             </>
           )}
           <Button className="ml-2" variant="secondary" onClick={() => backToExpensesPage()}>
