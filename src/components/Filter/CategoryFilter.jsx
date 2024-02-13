@@ -57,6 +57,9 @@ const CategoryFilter = ({ onSelectCategory, params }) => {
                 fontWeight: selectedCategoryId === category.id ? 'bold' : 'normal'
               }}
             >
+              <span>
+                <i className={`fas ${category.icon}`} style={{ marginRight: '0.5rem' }}></i>
+              </span>
               {category.name}
             </ListGroup.Item>
           ))}
