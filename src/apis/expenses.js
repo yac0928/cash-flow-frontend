@@ -1,6 +1,20 @@
 import axiosInstance from './axiosConfig.js'
 
 // 取得所有路徑
+export const getCalendar = async () => {
+  try {
+    const { data: responseData } = await axiosInstance.get('/')
+    if (responseData) {
+      return {
+        success: true,
+        expenses: responseData.expenses
+      }
+    }
+  } catch (error) {
+    console.error('[Get All Post Failed]:', error)
+    return { success: false }
+  }
+}
 
 export const getExpenses = async (queryParams) => {
   try {

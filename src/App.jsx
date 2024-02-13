@@ -20,7 +20,7 @@ const App = () => {
           <Route path="/expenses/:id" element={isAuthenticated ? <ExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses/:id/edit" element={isAuthenticated ? <EditExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} />} />
 
           {/* 其他路由 */}
         </Routes>

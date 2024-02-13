@@ -21,7 +21,7 @@ export default function LoginModal ({ setIsAuthenticated }) {
       return
     }
 
-    const { token, currentUser, message } = await login({
+    const { token, currentUser } = await login({
       email,
       password
     })
@@ -34,7 +34,7 @@ export default function LoginModal ({ setIsAuthenticated }) {
       setIsAuthenticated(true)
       navigate('/')
     } else {
-      noty(message, 'error')
+      noty('Wrong email or password', 'error')
     }
   }
   return (

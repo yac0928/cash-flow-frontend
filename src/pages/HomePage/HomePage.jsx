@@ -1,9 +1,9 @@
 import Calendar from '../../components/Calendar/Calendar'
 
-const HomePage = () => {
+const HomePage = ({ isAuthenticated }) => {
   return (
     <div>
-      <Calendar />
+      <Calendar isAuthenticated={isAuthenticated}/>
     </div>
   )
 }
