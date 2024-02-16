@@ -1,6 +1,5 @@
 import axiosInstance from './axiosConfig.js'
 
-// 取得所有路徑
 export const getCalendar = async () => {
   try {
     const { data: responseData } = await axiosInstance.get('/')

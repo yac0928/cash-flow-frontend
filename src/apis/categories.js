@@ -1,12 +1,10 @@
-import axios from './axiosConfig.js'
-const baseURL = 'http://localhost:3000/api'
+import axiosInstance from './axiosConfig.js'
 
-// 取得所有路徑
 export const getCategories = async () => {
   try {
-    const { data: responseData } = await axios.get(`${baseURL}/categories`)
+    const { data: responseData } = await axiosInstance.get('/categories')
     if (responseData) {
-      return { success: true, categories: responseData.data.categories }
+      return { success: true, categories: responseData.categories }
     }
   } catch (error) {
     console.error('[Get All Post Failed]:', error)
