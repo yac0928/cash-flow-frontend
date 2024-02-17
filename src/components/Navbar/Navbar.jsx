@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import LoginModal from '../Modal/LoginModal'
 
-const CustomNavbar = ({ isAuthenticated, setIsAuthenticated }) => {
+const CustomNavbar = ({ isAuthenticated, setIsAuthenticated, mode }) => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -15,7 +15,7 @@ const CustomNavbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const user = JSON.parse(localStorage.getItem('User'))
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className={mode === 'cash-flow' ? 'navbar-light bg-light' : 'navbar-dark bg-dark'} expand="lg">
       <Navbar.Brand as={Link} to="/">
         Home
       </Navbar.Brand>

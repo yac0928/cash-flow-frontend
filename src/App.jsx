@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import Navbar from './components/Navbar/Navbar'
@@ -7,20 +7,30 @@ import ExpensesPage from './pages/ExpensesPage/ExpensesPage'
 import ExpensePage from './pages/ExpensePage/ExpensePage'
 import EditExpensePage from './pages/EditExpensePage/EditExpensePage'
 import PostExpensePage from './pages/PostExpensePage/PostExpensePage'
+import MoviesPage from './pages/MoviesPage/MoviesPage'
 import './App.css'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem('Token')))
+  const [mode, setMode] = useState('cash-flow')
+  useEffect(() => {
+    if (mode === 'cash-flow') {
+      document.documentElement.style.setProperty('--background-color', '#aed9e0')
+    } else if (mode === 'movies') {
+      document.documentElement.style.setProperty('--background-color', '#CCCCCC')
+    }
+  }, [mode])
   return (
-    <div>
+    <div className={mode === 'cash-flow' ? 'cash-flow-mode' : 'movies-mode'}>
       <BrowserRouter>
-        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} mode={mode} />
         <Routes>
           <Route path="/expenses/new" element={isAuthenticated ? <PostExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses/:id" element={isAuthenticated ? <ExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses/:id/edit" element={isAuthenticated ? <EditExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
-          <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} />} />
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
 
           {/* 其他路由 */}
         </Routes>

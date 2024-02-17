@@ -7,10 +7,9 @@ import { getMovies } from '../../apis/movies'
 import { ButtonGroup, Button } from 'react-bootstrap'
 import './Calendar.css'
 
-const MyCalendar = ({ isAuthenticated }) => {
+const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
   const [date, setDate] = useState(new Date())
   const [calendarData, setCalendarData] = useState([])
-  const [mode, setMode] = useState('cash-flow')
   const navigate = useNavigate()
 
   const onChange = (newDate) => {
@@ -28,7 +27,7 @@ const MyCalendar = ({ isAuthenticated }) => {
       const params = { year, month, day }
       navigate(
         `/movies?year=${params.year}&month=${params.month}&day=${params.day}`,
-        { state: { params } }
+        { state: { params, moviesData: calendarData } }
       )
     }
   }
