@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import CategoryFilter from '../../components/Filter/CategoryFilter'
 import ExpensesList from '../../components/ExpensesList/ExpensesList'
+import { Container, Row, Col } from 'react-bootstrap'
 
 const ExpensesPage = () => {
   const location = useLocation()
@@ -13,17 +14,25 @@ const ExpensesPage = () => {
   }
 
   return (
-    <div>
-      <h3>Date: {params.year}-{params.month}-{params.day}</h3>
-      <CategoryFilter
-        onSelectCategory={handleCategoryIdChange}
-        params = { params }
-      />
-      <ExpensesList
-        selectedCategoryId={selectedCategoryId}
-        params= { params }
-      />
-    </div>
+    <Container>
+      <Col>
+        <Row className="justify-content-center">
+          <h1>{params.year}-{params.month}-{params.day}</h1>
+        </Row>
+        <Row>
+          <CategoryFilter
+            onSelectCategory={handleCategoryIdChange}
+            params={params}
+          />
+        </Row>
+        <Row>
+          <ExpensesList
+            selectedCategoryId={selectedCategoryId}
+            params={params}
+          />
+        </Row>
+      </Col>
+    </Container>
   )
 }
 

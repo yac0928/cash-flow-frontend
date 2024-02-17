@@ -23,12 +23,12 @@ const MoviesList = ({ movies, targetDate }) => {
                   <Card.Title>{movie.nameEn}</Card.Title>
                   <Card.Text>{truncateDescription(movie.description, 100)}</Card.Text>
                   <Card.Text>{movie.duration}</Card.Text>
-                  <Button variant="primary" href={`https://www.miramarcinemas.tw/${movie.movieDetailUrl}`}>查看詳情</Button>
+                  <Button variant="primary" href={`https://www.miramarcinemas.tw/${movie.movieDetailUrl}`} target="_blank">查看詳情</Button>
                 </Card.Body>
               </Col>
               <Col xs={3} md={3} lg={3}>
                 <div className="screenings px-3">
-                  <h4>放映信息</h4>
+                  <h2>詳細放映資訊</h2>
                   <ul className="list-unstyled">
                     {movie.Screenings.reduce((accumulator, screening) => {
                       const screeningDate = new Date(screening.date)
@@ -44,7 +44,7 @@ const MoviesList = ({ movies, targetDate }) => {
                       return accumulator
                     }, []).map((item, idx) => (
                       <li key={idx}>
-                        <p>廳別: {item.room}</p>
+                        <h4>廳別: {item.room}</h4>
                         <p>場次: {item.times.join(', ')}</p>
                       </li>
                     ))}

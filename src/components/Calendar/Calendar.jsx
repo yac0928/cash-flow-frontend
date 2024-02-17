@@ -3,13 +3,16 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import { useNavigate } from 'react-router-dom'
 import { getCalendar } from '../../apis/expenses'
-import { getMovies } from '../../apis/movies'
-import { ButtonGroup, Button } from 'react-bootstrap'
+import { getMovies, postMovies } from '../../apis/movies'
+import { Button, Container, Row, Col } from 'react-bootstrap'
+import noty from '../../utils/Noty'
+
 import './Calendar.css'
 
 const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
   const [date, setDate] = useState(new Date())
   const [calendarData, setCalendarData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
   const onChange = (newDate) => {
@@ -29,6 +32,18 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
         `/movies?year=${params.year}&month=${params.month}&day=${params.day}`,
         { state: { params, moviesData: calendarData } }
       )
+    }
+  }
+  const handleUpdateMovies = async () => {
+    setIsLoading(true)
+    try {
+      await postMovies()
+      noty('Movies updated successfully!', 'success')
+    } catch (error) {
+      console.error('Error updating movies:', error)
+      noty('Failed to update movies. Please try again later.', 'error')
+    } finally {
+      setIsLoading(false)
     }
   }
   useEffect(() => {
@@ -52,7 +67,6 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
     }
     fetchData()
   }, [isAuthenticated, mode])
-
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
       const year = date.getFullYear()
@@ -72,18 +86,43 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
         }
         return false
       })
-      return matchingData.length > 0 ? <p>{'x'.repeat(matchingData.length)}</p> : null
+      return matchingData && matchingData.length > 0
+        ? <div style={{ height: '20px' }}>
+          ({matchingData.length})
+        </div>
+        : null
     }
     return null
   }
   return (
-    <div className="container">
-      <ButtonGroup className="mb-3">
-        <Button variant={mode === 'cash-flow' ? 'primary' : 'secondary'} onClick={() => setMode('cash-flow')}>Cash Flow Mode</Button>
-        <Button variant={mode === 'movies' ? 'primary' : 'secondary'} onClick={() => setMode('movies')}>Miramar Movie Theater Mode</Button>
-      </ButtonGroup>
-      <Calendar onChange={onChange} value={date} tileContent={tileContent} />
-    </div>
+    <Container>
+      <Row className="justify-content-center mt-3">
+        <Col md={6} className="text-center">
+          <Button variant={mode === 'cash-flow' ? 'primary' : 'secondary'} onClick={() => setMode('cash-flow')} block="true">
+            Cash Flow Mode
+          </Button>
+        </Col>
+        <Col md={6} className="text-center">
+          <Button variant={mode === 'movies' ? 'primary' : 'secondary'} onClick={() => setMode('movies')} block="true">
+            Miramar Movie Theater Mode
+          </Button>
+        </Col>
+      </Row>
+      <Row className="justify-content-center mt-3">
+        {mode === 'movies' && (
+          <Col md={12} className="text-center">
+            <Button variant="primary" onClick={handleUpdateMovies} disabled={isLoading}>
+              {isLoading ? 'Updating Movies...' : 'Update Movies'}
+            </Button>
+          </Col>
+        )}
+      </Row>
+      <Row className="justify-content-center mt-3">
+        <Col md={12} className="text-center">
+          <Calendar onChange={onChange} value={date} tileContent={tileContent} />
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

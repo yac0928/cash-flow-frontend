@@ -18,8 +18,8 @@ export const postMovies = async () => {
     if (responseData) {
       return {
         success: true,
-        movies: responseData.data.movies,
-        screenings: responseData.data.screenings
+        movies: responseData.movies,
+        screenings: responseData.screenings
       }
     }
   } catch (error) {

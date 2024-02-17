@@ -17,9 +17,15 @@ const MoviesPage = () => {
 
   return (
     <div>
-      <h1>Movies on {params.year}-{params.month}-{params.day}</h1>
       <Container>
-        <MoviesList movies={filteredMovies} targetDate={params} />
+        <h1 className="text-center">{params.year}-{params.month}-{params.day}</h1>
+        {filteredMovies.length > 0
+          ? (
+          <MoviesList movies={filteredMovies} targetDate={params} />
+            )
+          : (
+          <h3 className="text-center">--No Movies--</h3>
+            )}
       </Container>
     </div>
   )

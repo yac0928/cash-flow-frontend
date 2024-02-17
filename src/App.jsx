@@ -12,7 +12,12 @@ import './App.css'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem('Token')))
-  const [mode, setMode] = useState('cash-flow')
+  const [mode, setMode] = useState(localStorage.getItem('mode') || 'cash-flow')
+
+  // 當 mode 狀態發生變化時，將其保存到 localStorage 中
+  useEffect(() => {
+    localStorage.setItem('mode', mode)
+  }, [mode])
   useEffect(() => {
     if (mode === 'cash-flow') {
       document.documentElement.style.setProperty('--background-color', '#aed9e0')

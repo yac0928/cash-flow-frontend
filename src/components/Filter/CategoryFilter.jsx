@@ -35,7 +35,7 @@ const CategoryFilter = ({ onSelectCategory, params }) => {
 
   return (
     <Container>
-      <h3>Categories:</h3>
+      <h2>Categories:</h2>
       <ListGroup horizontal>
         <ListGroup.Item
           key="all"
