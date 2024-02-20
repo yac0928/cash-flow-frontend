@@ -48,7 +48,6 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
     navigate('/expenses/new', { state: { params } })
   }
   useEffect(() => {
-    console.log('ExpensesList')
     const getData = async () => {
       const queryParams = {
         year: params.year,
@@ -75,8 +74,16 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
           ? (
               expensesData.map((expense) => (
               <ListGroup.Item key={expense.id}>
-                <p>
-                  <strong>Name:</strong> {expense.name}, <strong>Amount:</strong> {expense.amount}
+                <span>
+                  <i className={`fas ${expense.Category.icon}`} style={{ marginRight: '0.5rem' }}></i>
+                </span>
+                <p style={{ display: 'inline-block', width: '200px', margin: '0' }}>
+                  <strong>Name:</strong> {expense.name}
+                </p>
+                <p style={{ display: 'inline-block', width: '150px', margin: '0' }}>
+                  <strong>Amount:</strong> {expense.amount}
+                </p>
+                <p style={{ display: 'inline-block', margin: '0' }}>
                   <Button className="ml-2" variant="primary" onClick={() => toExpensePage(expense.id)}>
                     Details
                   </Button>

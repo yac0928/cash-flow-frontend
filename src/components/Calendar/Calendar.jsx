@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { getCalendar } from '../../apis/expenses'
 import { getMovies, postMovies } from '../../apis/movies'
 import { Button, Container, Row, Col } from 'react-bootstrap'
+import MonthExpensesInputBox from '../Input/MonthExpensesInputBox'
 import noty from '../../utils/Noty'
 
 import './Calendar.css'
@@ -122,6 +123,7 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
           <Calendar onChange={onChange} value={date} tileContent={tileContent} />
         </Col>
       </Row>
+      {mode === 'cash-flow' && <MonthExpensesInputBox />}
     </Container>
   )
 }

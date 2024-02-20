@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import HomePage from './pages/HomePage/HomePage'
 import ExpensesPage from './pages/ExpensesPage/ExpensesPage'
+import ExpensesByMonthPage from './pages/ExpensesByMonthPage/ExpensesByMonthPage'
 import ExpensePage from './pages/ExpensePage/ExpensePage'
 import EditExpensePage from './pages/EditExpensePage/EditExpensePage'
 import PostExpensePage from './pages/PostExpensePage/PostExpensePage'
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/expenses/:id" element={isAuthenticated ? <ExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses/:id/edit" element={isAuthenticated ? <EditExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
+          <Route path="/expenses-by-month" element={isAuthenticated ? <ExpensesByMonthPage /> : <Navigate to="/" />} />
           <Route path="/movies" element={<MoviesPage />} />
           <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
 

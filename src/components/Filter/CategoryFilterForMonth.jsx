@@ -4,7 +4,7 @@ import { getExpenses } from '../../apis/expenses.js'
 import noty from '../../utils/Noty.js'
 import { Container, ListGroup } from 'react-bootstrap'
 
-const CategoryFilter = ({ onSelectCategory, params }) => {
+const CategoryFilterForMonth = ({ onSelectCategory, params }) => {
   const [categoriesData, setCategoriesData] = useState(null)
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const navigate = useNavigate()
@@ -12,7 +12,7 @@ const CategoryFilter = ({ onSelectCategory, params }) => {
   const handleCategoryIdChange = (categoryId) => {
     setSelectedCategoryId(categoryId)
     onSelectCategory(categoryId) // 將選擇的 categoryId 通知到父組件
-    navigate(`/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=${categoryId}`, { state: { params } })
+    navigate(`/expenses-by-month?year=${params.year}&month=${params.month}&categoryId=${categoryId}`, { state: { params } })
   }
 
   useEffect(() => {
@@ -67,4 +67,4 @@ const CategoryFilter = ({ onSelectCategory, params }) => {
   )
 }
 
-export default CategoryFilter
+export default CategoryFilterForMonth
