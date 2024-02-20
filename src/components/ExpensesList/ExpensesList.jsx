@@ -81,7 +81,7 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
                   <strong>Name:</strong> {expense.name}
                 </p>
                 <p style={{ display: 'inline-block', width: '150px', margin: '0' }}>
-                  <strong>Amount:</strong> {expense.amount}
+                  <strong>Amount:</strong> ${expense.amount}
                 </p>
                 <p style={{ display: 'inline-block', margin: '0' }}>
                   <Button className="ml-2" variant="primary" onClick={() => toExpensePage(expense.id)}>
