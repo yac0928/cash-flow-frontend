@@ -1,18 +1,25 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import LoginModal from '../Modal/LoginModal'
+import SignUpModal from '../Modal/SignUpModal'
 
 const CustomNavbar = ({ isAuthenticated, setIsAuthenticated, mode }) => {
   const navigate = useNavigate()
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showSignUpModal, setShowSignUpModal] = useState(false)
 
   const handleLogout = () => {
     localStorage.removeItem('Token')
     localStorage.removeItem('User')
     setIsAuthenticated(false)
-    navigate('/')
+    if (mode === 'cash-flow') {
+      navigate('/')
+    }
   }
 
-  const user = JSON.parse(localStorage.getItem('User'))
+  const userJSON = localStorage.getItem('User')
+  const user = userJSON ? JSON.parse(userJSON) : null
 
   return (
     <Navbar className={mode === 'cash-flow' ? 'navbar-light bg-light' : 'navbar-dark bg-dark'} expand="lg">
@@ -36,9 +43,14 @@ const CustomNavbar = ({ isAuthenticated, setIsAuthenticated, mode }) => {
               </>
               )
             : (
-              <Nav.Item>
-                <LoginModal setIsAuthenticated={setIsAuthenticated} />
-              </Nav.Item>
+              <>
+                <Nav.Item className="mr-2">
+                  <SignUpModal showSignUpModal={showSignUpModal} setShowSignUpModal={setShowSignUpModal} setShowLoginModal={setShowLoginModal} />
+                </Nav.Item>
+                <Nav.Item>
+                  <LoginModal setIsAuthenticated={setIsAuthenticated} mode={mode} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
+                </Nav.Item>
+              </>
               )}
         </Nav>
       </Navbar.Collapse>

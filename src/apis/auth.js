@@ -9,39 +9,35 @@ export const login = async ({ email, password }) => {
       password
     })
     if (responseData) {
-      const { token } = responseData.data
-      const currentUser = responseData.data.user
       return {
-        token,
-        currentUser
+        success: true,
+        token: responseData.token,
+        currentUser: responseData.user
       }
     }
   } catch (error) {
     console.error('[Login Failed]:', error)
-    const { message } = error.response.data
-    return { success: false, message }
+    return { success: false }
   }
 }
 
 // 註冊
-export const signUp = async ({ name, email, password, passwordCheck }) => {
+export const signUp = async ({ name, email, password, passwordConfirm }) => {
   try {
-    const { data } = await axios.post(`${baseURL}/users`, {
+    const { data: responseData } = await axios.post(`${baseURL}/signup`, {
       name,
       email,
       password,
-      passwordCheck
+      passwordConfirm
     })
-    const { status, message } = data
-
-    if (status === 'success') {
-      return { success: true, message }
+    if (responseData) {
+      return {
+        success: true,
+        newUser: responseData.newUser
+      }
     }
-
-    return data
   } catch (error) {
-    const { message } = error.response.data
     console.error('[Register Failed]: ', error)
-    return { success: false, message }
+    return { success: false, message: error.response.data.message }
   }
 }
