@@ -14,6 +14,7 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
   const [date, setDate] = useState(new Date())
   const [calendarData, setCalendarData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [dataUpdated, setDataUpdated] = useState(false)
   const navigate = useNavigate()
 
   const onChange = (newDate) => {
@@ -23,10 +24,14 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
     const day = newDate.getDate()
     if (mode === 'cash-flow') {
       const params = { year, month, day, categoryId: null }
-      navigate(
-        `/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`,
-        { state: { params } }
-      )
+      if (isAuthenticated) {
+        navigate(
+          `/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=`,
+          { state: { params } }
+        )
+      } else {
+        noty('You need to log in to access this feature.', 'error')
+      }
     } else if (mode === 'movies') {
       const params = { year, month, day }
       navigate(
@@ -40,6 +45,7 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
     try {
       await postMovies()
       noty('Movies updated successfully!', 'success')
+      setDataUpdated(true)
     } catch (error) {
       console.error('Error updating movies:', error)
       noty('Failed to update movies. Please try again later.', 'error')
@@ -51,8 +57,7 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
     const fetchData = async () => {
       try {
         if (mode === 'cash-flow') {
-          const token = localStorage.getItem('Token')
-          if (token) {
+          if (isAuthenticated) {
             const data = await getCalendar()
             setCalendarData(data.expenses)
           } else {
@@ -67,7 +72,12 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
       }
     }
     fetchData()
-  }, [isAuthenticated, mode])
+  }, [isAuthenticated, mode, dataUpdated])
+  useEffect(() => {
+    if (dataUpdated) {
+      setDataUpdated(false)
+    }
+  }, [dataUpdated])
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
       const year = date.getFullYear()
@@ -123,7 +133,7 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
           <Calendar onChange={onChange} value={date} tileContent={tileContent} />
         </Col>
       </Row>
-      {mode === 'cash-flow' && <MonthExpensesInputBox />}
+      {mode === 'cash-flow' && isAuthenticated && <MonthExpensesInputBox />}
     </Container>
   )
 }

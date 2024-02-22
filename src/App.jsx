@@ -38,8 +38,6 @@ const App = () => {
           <Route path="/expenses-by-month" element={isAuthenticated ? <ExpensesByMonthPage /> : <Navigate to="/" />} />
           <Route path="/movies" element={<MoviesPage />} />
           <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
-
-          {/* 其他路由 */}
         </Routes>
       </BrowserRouter>
 
