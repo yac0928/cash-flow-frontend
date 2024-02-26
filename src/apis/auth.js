@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3000/api'
+const baseURL = 'https://cash-flow-api.zeabur.app/api'
 
 // 使用者登入
 export const login = async ({ email, password }) => {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3000/api'
+const baseURL = 'https://cash-flow-api.zeabur.app/api'
 const axiosInstance = axios.create({ baseURL })
 
 axiosInstance.interceptors.request.use(
