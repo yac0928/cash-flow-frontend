@@ -21,6 +21,22 @@ export const login = async ({ email, password }) => {
   }
 }
 
+export const googleLogin = async () => {
+  try {
+    const { data: responseData } = await axios.get(`${baseURL}/auth/google`)
+    if (responseData) {
+      return {
+        success: true,
+        token: responseData.token,
+        currentUser: responseData.user
+      }
+    }
+  } catch (error) {
+    console.error('[Google Login Failed]: ', error)
+    return { success: false }
+  }
+}
+
 // 註冊
 export const signUp = async ({ name, email, password, passwordConfirm }) => {
   try {
@@ -38,6 +54,6 @@ export const signUp = async ({ name, email, password, passwordConfirm }) => {
     }
   } catch (error) {
     console.error('[Register Failed]: ', error)
-    return { success: false, message: error.response.data.message }
+    return { success: false }
   }
 }

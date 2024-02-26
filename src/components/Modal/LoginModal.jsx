@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal, Button, Form } from 'react-bootstrap'
 import LoginInputBox from '../Input/LoginInputBox.jsx'
+import CustomGoogleLoginButton from '../Button/GoogleLoginButton.jsx'
 import { login } from '../../apis/auth.js'
 import noty from '../../utils/Noty.js'
 
@@ -80,6 +81,7 @@ export default function LoginModal ({ setIsAuthenticated, mode, showLoginModal, 
             Submit
           </Button>
         </Modal.Footer>
+        <CustomGoogleLoginButton setIsAuthenticated={setIsAuthenticated} mode={mode} setShowLoginModal={setShowLoginModal} />
       </Modal>
     </>
   )

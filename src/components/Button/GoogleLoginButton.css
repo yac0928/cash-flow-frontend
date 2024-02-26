@@ -1,0 +1,21 @@
+.custom-google-login-button {
+  background-color: #4285f4;
+  /* Google Blue */
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-google-login-button:hover {
+  background-color: #357ae8;
+  /* Darker Google Blue */
+}
+
+.custom-google-login-button:active {
+  background-color: #3367d6;
+  /* Even darker Google Blue */
+}
