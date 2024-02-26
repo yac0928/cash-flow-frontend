@@ -33,7 +33,7 @@ const CustomNavbar = ({ isAuthenticated, setIsAuthenticated, mode }) => {
             ? (
               <>
                 <Nav.Item>
-                  <Nav.Link disabled>Hi, {user.name} ({user.Subscription.level} level)</Nav.Link>
+                  <Nav.Link disabled>Hi, {user.name} ({user.Subscription && user.Subscription.level} level)</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Button variant="link" onClick={handleLogout}>
