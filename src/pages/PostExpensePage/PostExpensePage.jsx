@@ -82,7 +82,7 @@ export default function PostExpensePage () {
   }, [paymentYears])
   return (
     <Container>
-      <h2 className="mt-4">Edit Expense:</h2>
+      <h2 className="mt-4">Post Expense:</h2>
       <Form>
         <Form.Group controlId="formName">
           <EditExpenseInputBox label='Name' type='text' value={name} onChange={(e) => setName(e.target.value)} maxLength={25} />
