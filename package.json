@@ -16,8 +16,7 @@
     "react-bootstrap": "^2.10.0",
     "react-calendar": "^4.8.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.3",
-    "sweetalert2": "^11.6.13"
+    "react-router-dom": "^6.21.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

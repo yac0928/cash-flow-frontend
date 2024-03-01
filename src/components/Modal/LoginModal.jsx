@@ -81,7 +81,7 @@ export default function LoginModal ({ setIsAuthenticated, mode, showLoginModal, 
             Submit
           </Button>
         </Modal.Footer>
-        <CustomGoogleLoginButton setIsAuthenticated={setIsAuthenticated} mode={mode} setShowLoginModal={setShowLoginModal} />
+        <CustomGoogleLoginButton />
       </Modal>
     </>
   )

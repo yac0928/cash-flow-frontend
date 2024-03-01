@@ -23,7 +23,7 @@ const MoviesList = ({ movies, targetDate }) => {
                   <Card.Title>{movie.nameEn}</Card.Title>
                   <Card.Text>{truncateDescription(movie.description, 100)}</Card.Text>
                   <Card.Text>{movie.duration}</Card.Text>
-                  <Button variant="primary" href={`https://www.miramarcinemas.tw/${movie.movieDetailUrl}`} target="_blank">查看詳情</Button>
+                  <Button variant="primary" href={`https://www.miramarcinemas.tw${movie.movieDetailUrl}`} target="_blank">查看詳情</Button>
                 </Card.Body>
               </Col>
               <Col xs={3} md={3} lg={3}>
@@ -42,14 +42,20 @@ const MoviesList = ({ movies, targetDate }) => {
                         }
                       }
                       return accumulator
-                    }, []).map((item, idx) => (
-                      <li key={idx}>
-                        <h4>廳別: {item.room}</h4>
-                        <p style={{ paddingLeft: '40px', textIndent: '-40px' }}>場次: {item.times.join(' ')}</p>
-                      </li>
-                    ))}
+                    }, []).map((item, idx) => {
+                      item.times.sort((a, b) => {
+                        const timeA = new Date('1970-01-01T' + a)
+                        const timeB = new Date('1970-01-01T' + b)
+                        return timeA - timeB
+                      })
+                      return (
+                        <li key={idx}>
+                          <h4>廳別: {item.room}</h4>
+                          <p style={{ paddingLeft: '40px', textIndent: '-40px' }}>場次: {item.times.join(' ')}</p>
+                        </li>
+                      )
+                    })}
                   </ul>
-
                 </div>
               </Col>
               <Col xs={1} md={2} lg={2}></Col>

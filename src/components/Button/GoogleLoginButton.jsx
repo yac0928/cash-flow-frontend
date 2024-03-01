@@ -1,35 +1,11 @@
-import { useNavigate } from 'react-router-dom'
-import { googleLogin } from '../../apis/auth'
-import noty from '../../utils/Noty'
-import './GoogleLoginButton.css'
+const baseURL = 'https://cash-flow-api.zeabur.app/api'
+// const baseURL = 'http://localhost:3000/api'
 
-const CustomGoogleLoginButton = ({ setIsAuthenticated, setShowLoginModal, mode }) => {
-  const navigate = useNavigate()
-  const handleGoogleLogin = async () => {
-    try {
-      const { success, token, currentUser } = await googleLogin()
-      if (success) {
-        localStorage.setItem('Token', token)
-        localStorage.setItem('User', JSON.stringify(currentUser))
-        noty('Successfully logged in!', 'success')
-        setIsAuthenticated(true)
-        setShowLoginModal(false)
-        if (mode === 'cash-flow') {
-          navigate('/')
-        }
-      } else {
-        noty('Google login failed', 'error')
-      }
-    } catch (error) {
-      console.error('An error occurred during Google login:', error)
-      noty('Google login failed', 'error')
-    }
-  }
-
+function CustomGoogleLoginButton () {
   return (
-    <button className="custom-google-login-button" onClick={handleGoogleLogin}>
-      Sign in with Google
-    </button>
+    <div>
+      <a href={`${baseURL}/auth/google`}>Sign in with Google</a>
+    </div>
   )
 }
 

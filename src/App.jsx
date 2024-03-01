@@ -37,7 +37,7 @@ const App = () => {
           <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
           <Route path="/expenses-by-month" element={isAuthenticated ? <ExpensesByMonthPage /> : <Navigate to="/" />} />
           <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
+          <Route path="/" element={<HomePage setIsAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
         </Routes>
       </BrowserRouter>
 
