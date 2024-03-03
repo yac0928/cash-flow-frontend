@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 const ExpensesPage = () => {
   const location = useLocation()
   const { params } = location.state
+
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
 
   const handleCategoryIdChange = (categoryId) => {

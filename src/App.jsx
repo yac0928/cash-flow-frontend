@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import Navbar from './components/Navbar/Navbar'
+import ChatRoom from './components/ChatRoom/ChatRoom'
 import HomePage from './pages/HomePage/HomePage'
 import ExpensesPage from './pages/ExpensesPage/ExpensesPage'
 import ExpensesByMonthPage from './pages/ExpensesByMonthPage/ExpensesByMonthPage'
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/movies" element={<MoviesPage />} />
           <Route path="/" element={<HomePage setIsAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
         </Routes>
+        <ChatRoom isAuthenticated={isAuthenticated} />
       </BrowserRouter>
 
     </div>

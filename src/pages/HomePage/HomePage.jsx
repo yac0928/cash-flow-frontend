@@ -1,7 +1,6 @@
 import Calendar from '../../components/Calendar/Calendar'
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import noty from '../../utils/Noty'
 
 const HomePage = ({ isAuthenticated, mode, setMode, setIsAuthenticated }) => {
   const navigate = useNavigate()
