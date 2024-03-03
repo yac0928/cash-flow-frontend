@@ -107,3 +107,11 @@
   color: #333;
   /* 系統的訊息文字顏色 */
 }
+
+.message.function {
+  text-align: center;
+  background-color: #28a745;
+  /* 函數訊息背景顏色 */
+  color: #fff;
+  /* 函數訊息文字顏色 */
+}
