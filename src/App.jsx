@@ -40,7 +40,7 @@ const App = () => {
           <Route path="/movies" element={<MoviesPage />} />
           <Route path="/" element={<HomePage setIsAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
         </Routes>
-        <ChatRoom isAuthenticated={isAuthenticated} />
+        {isAuthenticated && mode === 'cash-flow' && <ChatRoom /> }
       </BrowserRouter>
 
     </div>
