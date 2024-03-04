@@ -46,12 +46,10 @@ export default function PostExpensePage () {
     if (success) {
       noty('Expense created successfully', 'success')
       if (Array.isArray(newExpenses)) {
-        // 如果 newExpenses 是数组，则遍历并显示每个新支出的信息
         newExpenses.forEach((expense, i) => {
           noty(`New expense ${i + 1}: Date - ${expense.date.split('T')[0]}, Name - ${expense.name}`, 'information')
         })
       } else if (typeof newExpenses === 'object' && newExpenses !== null) {
-        // 如果 newExpenses 是对象，则直接使用 noty 函数显示信息
         noty(`New expense: Date - ${newExpenses.date.split('T')[0]}, Name - ${newExpenses.name}`, 'information')
       }
 
@@ -65,15 +63,15 @@ export default function PostExpensePage () {
   }
   useEffect(() => {
     const getData = async () => {
-      const { success, categories, payments } = await createExpense()
+      const { success, payments } = await createExpense()
       if (success) {
-        setCategoriesData(categories)
         setPaymentMethodsData(payments)
       } else {
         noty('Failed to get data!', 'error')
       }
     }
     getData()
+    setCategoriesData(user.Categories)
   }, [])
   useEffect(() => {
     if (paymentYears <= 0) {

@@ -68,19 +68,24 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
 
   return (
     <Container>
-      <h2 className="mt-4">Expenses List:</h2>
+      <div className="d-flex justify-content-between">
+        <h2 className="mt-4 mb-0 flex-grow-1">Expenses List:</h2>
+        <h3 className="mt-4 mb-0">Total Amount: {totalAmountData}</h3>
+      </div>
       <ListGroup className="mb-4">
         {expensesData && expensesData.length
           ? (
               expensesData.map((expense) => (
               <ListGroup.Item key={expense.id}>
-                <span>
-                  <i className={`fas ${expense.Category.icon}`} style={{ marginRight: '0.5rem' }}></i>
-                </span>
+                <p style={{ display: 'inline-block', width: '30px', margin: '0' }}>
+                  <span>
+                    <i className={`fas ${expense.Category.icon}`} style={{ marginRight: '0.5rem' }}></i>
+                  </span>
+                </p>
                 <p style={{ display: 'inline-block', width: '200px', margin: '0' }}>
                   <strong>Name:</strong> {expense.name}
                 </p>
-                <p style={{ display: 'inline-block', width: '150px', margin: '0' }}>
+                <p style={{ display: 'inline-block', width: '200px', margin: '0' }}>
                   <strong>Amount:</strong> ${expense.amount}
                 </p>
                 <p style={{ display: 'inline-block', margin: '0' }}>
@@ -102,9 +107,6 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
             )}
       </ListGroup>
       <Button variant="success" onClick={handleAddNewExpenses}>Add new expenses</Button>
-      <p>
-        <strong>Total Amount:</strong> {totalAmountData}
-      </p>
     </Container>
   )
 }

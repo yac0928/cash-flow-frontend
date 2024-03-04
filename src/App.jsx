@@ -9,6 +9,8 @@ import ExpensesByMonthPage from './pages/ExpensesByMonthPage/ExpensesByMonthPage
 import ExpensePage from './pages/ExpensePage/ExpensePage'
 import EditExpensePage from './pages/EditExpensePage/EditExpensePage'
 import PostExpensePage from './pages/PostExpensePage/PostExpensePage'
+import EditCategoriesPage from './pages/EditCategoriesPage/EditCategoriesPage'
+
 import MoviesPage from './pages/MoviesPage/MoviesPage'
 import './App.css'
 
@@ -37,6 +39,7 @@ const App = () => {
           <Route path="/expenses/:id/edit" element={isAuthenticated ? <EditExpensePage /> : <Navigate to="/" />} />
           <Route path="/expenses" element={isAuthenticated ? <ExpensesPage /> : <Navigate to="/" />} />
           <Route path="/expenses-by-month" element={isAuthenticated ? <ExpensesByMonthPage /> : <Navigate to="/" />} />
+          <Route path="/categories" element={isAuthenticated ? <EditCategoriesPage /> : <Navigate to="/" />} />
           <Route path="/movies" element={<MoviesPage />} />
           <Route path="/" element={<HomePage setIsAuthenticated={setIsAuthenticated} isAuthenticated={isAuthenticated} mode={mode} setMode={setMode} />} />
         </Routes>

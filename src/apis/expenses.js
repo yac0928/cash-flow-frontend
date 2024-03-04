@@ -22,7 +22,6 @@ export const getExpenses = async (queryParams) => {
       return {
         success: true,
         expenses: responseData.expenses,
-        categories: responseData.categories,
         categoryId: responseData.categoryId,
         totalAmount: responseData.totalAmount
       }
@@ -40,7 +39,6 @@ export const getExpensesByMonth = async (queryParams) => {
       return {
         success: true,
         expenses: responseData.expenses,
-        categories: responseData.categories,
         categoryId: responseData.categoryId,
         totalAmount: responseData.totalAmount
       }
@@ -74,7 +72,6 @@ export const editExpense = async (expenseId) => {
       return {
         success: true,
         expense: responseData.expense,
-        categories: responseData.categories,
         payments: responseData.payments
       }
     }
@@ -90,7 +87,6 @@ export const createExpense = async () => {
     if (responseData) {
       return {
         success: true,
-        categories: responseData.categories,
         payments: responseData.payments
       }
     }

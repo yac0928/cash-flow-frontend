@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getCategories } from '../../apis/categories.js'
-import noty from '../../utils/Noty.js'
-import { Container, ListGroup } from 'react-bootstrap'
+import { Container, ListGroup, Button } from 'react-bootstrap'
 
 const CategoryFilter = ({ onSelectCategory, params }) => {
   const [categoriesData, setCategoriesData] = useState(null)
@@ -15,21 +13,13 @@ const CategoryFilter = ({ onSelectCategory, params }) => {
     navigate(`/expenses?year=${params.year}&month=${params.month}&day=${params.day}&categoryId=${categoryId}`, { state: { params } })
   }
 
+  const toEditCategoriesPage = () => {
+    navigate('/categories')
+  }
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const { success, categories } = await getCategories()
-        if (success) {
-          setCategoriesData(categories)
-        } else {
-          noty('Failed to get categories!', 'error')
-        }
-      } catch (error) {
-        console.error('Error fetching categories from getCategories:', error)
-        noty('An error occurred while fetching categories from getCategories.', 'error')
-      }
-    }
-    getData()
+    const user = JSON.parse(localStorage.getItem('User'))
+    setCategoriesData(user.Categories)
   }, [])
 
   return (
@@ -62,6 +52,9 @@ const CategoryFilter = ({ onSelectCategory, params }) => {
               {category.name}
             </ListGroup.Item>
           ))}
+        <Button variant="info" onClick={() => toEditCategoriesPage()}>
+          Edit
+        </Button>
       </ListGroup>
     </Container>
   )
