@@ -20,10 +20,7 @@ const ExpensesList = ({ selectedCategoryId, params }) => {
       console.error('Expense not found')
       return
     }
-    const groupInfo = expenseToDelete.group
-    const confirmMessage = groupInfo
-      ? 'Are you sure you want to delete this expense? (including the same group expenses after this)'
-      : 'Are you sure you want to delete this expense?'
+    const confirmMessage = 'Are you sure you want to delete this expense? (including the same group expenses after this)'
 
     const confirmDelete = window.confirm(confirmMessage)
     if (confirmDelete) {
