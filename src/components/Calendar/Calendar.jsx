@@ -58,14 +58,22 @@ const MyCalendar = ({ isAuthenticated, mode, setMode }) => {
       try {
         if (mode === 'cash-flow') {
           if (isAuthenticated) {
-            const data = await getCalendar()
-            setCalendarData(data.expenses)
+            const { success, expenses } = await getCalendar()
+            if (success) {
+              setCalendarData(expenses)
+            } else {
+              noty('Failed to get calendar data!', 'error')
+            }
           } else {
             setCalendarData([])
           }
         } else if (mode === 'movies') {
-          const data = await getMovies()
-          setCalendarData(data.movies)
+          const { success, movies } = await getMovies()
+          if (success) {
+            setCalendarData(movies)
+          } else {
+            noty('Failed to get movies data!', 'error')
+          }
         }
       } catch (error) {
         console.error('Failed to fetch calendar data:', error)
